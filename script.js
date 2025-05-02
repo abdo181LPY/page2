@@ -4,7 +4,7 @@ const DELIVERY_BAGHDAD = 6000; // تكلفة التوصيل في بغداد
 const DELIVERY_PROVINCES = 7000; // تكلفة التوصيل للمحافظات
 
 // رابط Google Apps Script
-const API_URL = 'https://script.google.com/macros/s/AKfycby_b4BGf1DiTA36xXZh1uMwwon4AXrHidVSlbbFwTdEfkWG6AJ9aHcyhfY_xJJyqdxw/exec';
+const API_URL = 'https://script.google.com/macros/s/AKfycbwjpWWI0XO3xitizJh82cx-ZE7KNiI_ocXCo8BGGlFTL6xhIaElMbfzacyx1U_K3wy8/exec';
 
 // بيانات محلية
 let currentUser = null;
