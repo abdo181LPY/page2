@@ -4,8 +4,34 @@ const DELIVERY_BAGHDAD = 6000; // تكلفة التوصيل في بغداد
 const DELIVERY_PROVINCES = 7000; // تكلفة التوصيل للمحافظات
 
 // رابط Google Apps Script
-const API_URL = 'https://script.google.com/macros/s/AKfycbwjpWWI0XO3xitizJh82cx-ZE7KNiI_ocXCo8BGGlFTL6xhIaElMbfzacyx1U_K3wy8/exec';
 
+// رابط Google Apps Script مع وسيط CORS
+const API_URL = 'https://corsproxy.io/?' + encodeURIComponent('https://script.google.com/macros/s/AKfycbwjpWWI0XO3xitizJh82cx-ZE7KNiI_ocXCo8BGGlFTL6xhIaElMbfzacyx1U_K3wy8/exec');
+
+// دالة لإرسال طلب إلى Google Apps Script
+function fetchData(action, data = {}) {
+    const formData = new FormData();
+    formData.append('action', action);
+    
+    // إضافة البيانات إلى formData
+    for (const key in data) {
+        if (data.hasOwnProperty(key)) {
+            formData.append(key, data[key]);
+        }
+    }
+    
+    return fetch(API_URL, {
+        method: 'POST',
+        body: formData,
+        mode: 'cors' // إضافة خيار CORS
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok: ' + response.status);
+        }
+        return response.json();
+    });
+}
 // بيانات محلية
 let currentUser = null;
 let pages = [];
