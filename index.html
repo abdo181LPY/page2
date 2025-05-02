@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نظام إدارة الفواتير</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- تسجيل الدخول -->
+    <div class="container" id="loginPage">
+        <div class="login-container">
+            <h2 class="login-title">تسجيل الدخول إلى نظام إدارة الفواتير</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label class="form-label">اسم المستخدم</label>
+                    <input type="text" class="form-control" id="username" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">كلمة المرور</label>
+                    <input type="password" class="form-control" id="password" required>
+                </div>
+                <div id="loginMessage"></div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-success">تسجيل الدخول</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- الصفحة الرئيسية -->
+    <div class="container" id="mainPage" style="display: none;">
+        <div class="navbar">
+            <div class="user-info">
+                <span id="userDisplayName">مرحباً بك</span>
+                <a href="#" class="logout-btn" id="logoutBtn">تسجيل الخروج</a>
+            </div>
+        </div>
+        
+        <div class="header">
+            <h1>نظام إدارة الفواتير</h1>
+            <p>تثبيت وإدارة الفواتير بطريقة سهلة وفعالة</p>
+        </div>
+        
+        <div class="main-buttons">
+            <div class="card">
+                <div class="card-header">حساب</div>
+                <div class="card-body">
+                    <p>حساب تكلفة الطلبات وإظهار المعلومات للزبائن</p>
+                    <button class="btn" id="calculateBtn">حساب</button>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">تثبيت طلب</div>
+                <div class="card-body">
+                    <p>إدخال المعلومات الأساسية لتثبيت طلب جديد</p>
+                    <button class="btn" id="orderBtn">تثبيت طلب</button>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">البحث والحذف</div>
+                <div class="card-body">
+                    <p>البحث عن الفواتير وإمكانية حذفها حسب الصلاحيات</p>
+                    <button class="btn" id="searchBtn">البحث</button>
+                </div>
+            </div>
+            
+            <div class="card" id="adminCard" style="display: none;">
+                <div class="card-header">الإدارة</div>
+                <div class="card-body">
+                    <p>إدارة النظام وضبط الإعدادات والصلاحيات</p>
+                    <button class="btn" id="adminBtn">لوحة التحكم</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- نموذج الحساب -->
+        <div class="form-container" id="calculateForm">
+            <h2 class="form-title">حساب تكلفة الطلب</h2>
+            <form id="costCalculationForm">
+                <div class="form-group">
+                    <label class="form-label">اسم الصفحة</label>
+                    <select class="form-select" id="pageName" required>
+                        <option value="">اختر الصفحة</option>
+                        <!-- سيتم ملئها عبر JavaScript -->
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">رابط الإنستغرام</label>
+                    <input type="url" class="form-control" id="instagramLink" placeholder="أدخل رابط الإنستغرام" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">المحافظة</label>
+                    <select class="form-select" id="province" required>
+                        <option value="">اختر المحافظة</option>
+                        <option value="بغداد">بغداد</option>
+                        <option value="البصرة">البصرة</option>
+                        <option value="نينوى">نينوى</option>
+                        <option value="أربيل">أربيل</option>
+                        <option value="النجف">النجف</option>
+                        <option value="كربلاء">كربلاء</option>
+                        <option value="الأنبار">الأنبار</option>
+                        <option value="ذي قار">ذي قار</option>
+                        <option value="ديالى">ديالى</option>
+                        <option value="صلاح الدين">صلاح الدين</option>
+                        <option value="بابل">بابل</option>
+                        <option value="السليمانية">السليمانية</option>
+                        <option value="واسط">واسط</option>
+                        <option value="ميسان">ميسان</option>
+                        <option value="دهوك">دهوك</option>
+                        <option value="كركوك">كركوك</option>
+                        <option value="المثنى">المثنى</option>
+                        <option value="القادسية">القادسية</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">سعر السلة بالدولار</label>
+                    <input type="number" step="0.01" class="form-control" id="basketPrice" placeholder="أدخل سعر السلة بالدولار" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">عدد القطع الكلي</label>
+                    <input type="number" class="form-control" id="totalPieces" placeholder="أدخل عدد القطع الكلي" required>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-danger" id="cancelCalculate">إلغاء</button>
+                    <button type="submit" class="btn btn-success">حساب التكلفة</button>
+                </div>
+            </form>
+        </div>
+        
+        <!-- نموذج تثبيت الطلب -->
+        <div class="form-container" id="orderForm">
+            <h2 class="form-title">تثبيت طلب جديد</h2>
+            <form id="newOrderForm">
+                <div class="form-group">
+                    <label class="form-label">اسم الزبون</label>
+                    <input type="text" class="form-control" id="customerName" placeholder="أدخل اسم الزبون الكامل" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">رقم الهاتف الأساسي</label>
+                    <input type="tel" pattern="07[0-9]{9}" class="form-control" id="primaryPhone" placeholder="يجب أن يبدأ بـ 07 ويتكون من 11 رقم" required>
+                    <small style="color: #666;">يجب أن يبدأ بـ 07 ويتكون من 11 رقم</small>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">رقم الهاتف الثانوي (اختياري)</label>
+                    <input type="tel" pattern="07[0-9]{9}" class="form-control" id="secondaryPhone" placeholder="يجب أن يبدأ بـ 07 ويتكون من 11 رقم">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">المحافظة</label>
+                    <select class="form-select" id="orderProvince" required>
+                        <option value="">اختر المحافظة</option>
+                        <option value="بغداد">بغداد</option>
+                        <option value="البصرة">البصرة</option>
+                        <option value="نينوى">نينوى</option>
+                        <option value="أربيل">أربيل</option>
+                        <option value="النجف">النجف</option>
+                        <option value="كربلاء">كربلاء</option>
+                        <option value="الأنبار">الأنبار</option>
+                        <option value="ذي قار">ذي قار</option>
+                        <option value="ديالى">ديالى</option>
+                        <option value="صلاح الدين">صلاح الدين</option>
+                        <option value="بابل">بابل</option>
+                        <option value="السليمانية">السليمانية</option>
+                        <option value="واسط">واسط</option>
+                        <option value="ميسان">ميسان</option>
+                        <option value="دهوك">دهوك</option>
+                        <option value="كركوك">كركوك</option>
+                        <option value="المثنى">المثنى</option>
+                        <option value="القادسية">القادسية</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">اسم المنطقة</label>
+                    <input type="text" class="form-control" id="area" placeholder="أدخل اسم المنطقة" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">أقرب نقطة دالة</label>
+                    <input type="text" class="form-control" id="landmark" placeholder="أدخل أقرب نقطة دالة للعنوان" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">رابط السلة</label>
+                    <input type="url" class="form-control" id="basketLink" placeholder="أدخل رابط السلة" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">رابط الإنستغرام</label>
+                    <input type="url" class="form-control" id="orderInstagramLink" placeholder="أدخل رابط الإنستغرام (يجب أن يبدأ بـ http)" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">عدد القطع</label>
+                    <input type="number" class="form-control" id="orderTotalPieces" placeholder="أدخل عدد القطع الكلي" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">معلومات التكرارات</label>
+                    <textarea class="form-control" id="repeats" rows="3" placeholder="أدخل معلومات عن التكرارات إن وجدت"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">معلومات القطع المخصصة</label>
+                    <textarea class="form-control" id="customPieces" rows="3" placeholder="أدخل معلومات عن القطع المخصصة إن وجدت"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">طريقة الدفع</label>
+                    <select class="form-select" id="paymentMethod" required>
+                        <option value="">اختر طريقة الدفع</option>
+                        <option value="زين كاش">زين كاش</option>
+                        <option value="آسيا حوالة">آسيا حوالة</option>
+                        <option value="تحويل بنكي">تحويل بنكي</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">مبلغ العربون</label>
+                    <input type="number" class="form-control" id="depositAmount" placeholder="أدخل مبلغ العربون" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">ملاحظات</label>
+                    <textarea class="form-control" id="notes" rows="3" placeholder="أدخل أي ملاحظات إضافية"></textarea>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-danger" id="cancelOrder">إلغاء</button>
+                    <button type="submit" class="btn btn-success">تثبيت الطلب</button>
+                </div>
+            </form>
+        </div>
+        
+        <!-- نموذج البحث -->
+        <div class="form-container" id="searchForm">
+            <h2 class="form-title">البحث عن الفواتير</h2>
+            <form id="invoiceSearchForm">
+                <div class="form-group">
+                    <label class="form-label">رقم الفاتورة</label>
+                    <input type="text" class="form-control" id="invoiceNumber" placeholder="أدخل رقم الفاتورة">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">رقم الهاتف</label>
+                    <input type="tel" class="form-control" id="searchPhone" placeholder="أدخل رقم الهاتف للبحث">
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-danger" id="cancelSearch">إلغاء</button>
+                    <button type="submit" class="btn btn-success">بحث</button>
+                </div>
+            </form>
+            
+            <div class="table-container" id="searchResults" style="display: none;">
+                <h3>نتائج البحث</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>رقم الفاتورة</th>
+                            <th>اسم الزبون</th>
+                            <th>رقم الهاتف</th>
+                            <th>تاريخ الطلب</th>
+                            <th>الحالة</th>
+                            <th>الإجراءات</th>
+                        </tr>
+                    </thead>
+                    <tbody id="searchResultsTable">
+                        <!-- سيتم ملئه عبر JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- لوحة التحكم الإدارية -->
+        <div class="form-container" id="adminPanel">
+            <h2 class="form-title">لوحة التحكم الإدارية</h2>
+            
+            <div class="admin-panel">
+                <button class="btn" id="addUserBtn">إضافة مستخدم</button>
+                <button class="btn" id="addBlockedNumberBtn">إضافة رقم محظور</button>
+                <button class="btn" id="addPageBtn">إضافة صفحة</button>
+                <button class="btn" id="restoreInvoiceBtn">إعادة الإرسال</button>
+                <button class="btn" id="addBasketBtn">إضافة سلة</button>
+                <button class="btn" id="statisticsBtn">الإحصائيات</button>
+                <button class="btn" id="permissionsBtn">الصلاحيات</button>
+                <button class="btn" id="statusBtn">تعديل حالة الطلب</button>
+            </div>
+            
+            <!-- نماذج الإدارة (ستظهر بناءً على الزر المضغوط) -->
+            <div id="adminForms">
+                <!-- نموذج إضافة مستخدم -->
+                <div class="admin-form" id="addUserForm" style="display: none;">
+                    <h3>إضافة مستخدم جديد</h3>
+                    <form id="newUserForm">
+                        <div class="form-group">
+                            <label class="form-label">اسم المستخدم</label>
+                            <input type="text" class="form-control" id="newUsername" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">كلمة المرور</label>
+                            <input type="password" class="form-control" id="newPassword" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">اسم الموظف الكامل</label>
+                            <input type="text" class="form-control" id="employeeName" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">مستوى الصلاحيات</label>
+                            <select class="form-select" id="permissionLevel" required>
+                                <option value="1">المستوى الأول (حذف الفواتير الخاصة فقط)</option>
+                                <option value="2">المستوى الثاني (حذف أي فاتورة ما عدا التي تحتوي على رقم سلة)</option>
+                                <option value="3">المستوى الثالث (حذف أي فاتورة بلا استثناءات + صلاحيات إدارية)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-danger" onclick="hideAdminForms()">إلغاء</button>
+                            <button type="submit" class="btn btn-success">إضافة المستخدم</button>
+                        </div>
+                    </form>
+                </div>
+                
+                <!-- نموذج إضافة رقم محظور -->
+                <div class="admin-form" id="addBlockedNumberForm" style="display: none;">
+                    <h3>إضافة رقم هاتف إلى القائمة المحظورة</h3>
+                    <form id="newBlockedNumberForm">
+                        <div class="form-group">
+                            <label class="form-label">رقم الهاتف</label>
+                            <input type="tel" pattern="07[0-9]{9}" class="form-control" id="blockedNumber" placeholder="يجب أن يبدأ بـ 07 ويتكون من 11 رقم" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">سبب الحظر</label>
+                            <textarea class="form-control" id="blockReason" rows="3" required></textarea>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-danger" onclick="hideAdminForms()">إلغاء</button>
+                            <button type="submit" class="btn btn-success">إضافة الرقم</button>
+                        </div>
+                    </form>
+                </div>
+                
+                <!-- نموذج إضافة صفحة -->
+                <div class="admin-form" id="addPageForm" style="display: none;">
+                    <h3>إضافة صفحة جديدة</h3>
+                    <form id="newPageForm">
+                        <div class="form-group">
+                            <label class="form-label">اسم الصفحة</label>
+                            <input type="text" class="form-control" id="newPageName" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">رابط الصفحة</label>
+                            <input type="url" class="form-control" id="pageLink" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">وصف الصفحة</label>
+                            <textarea class="form-control" id="pageDescription" rows="3"></textarea>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-danger" onclick="hideAdminForms()">إلغاء</button>
+                            <button type="submit" class="btn btn-success">إضافة الصفحة</button>
+                        </div>
+                    </form>
+                </div>
+                
+                <!-- باقي نماذج الإدارة تكون مشابهة -->
+            </div>
+        </div>
+        
+        <!-- نتائج حساب التكلفة -->
+        <div class="result-container" id="costResults">
+            <h2 class="result-title">نتائج حساب التكلفة</h2>
+            <div class="result-content" id="costResultText"></div>
+            <button class="btn copy-btn" id="copyCostResult">نسخ النتائج</button>
+        </div>
+        
+        <!-- نتائج تثبيت الطلب -->
+        <div class="result-container" id="orderResults">
+            <h2 class="result-title">تم تثبيت الطلب بنجاح</h2>
+            <div class="result-content" id="orderResultText"></div>
+            <button class="btn copy-btn" id="copyOrderResult">نسخ تفاصيل الطلب</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
