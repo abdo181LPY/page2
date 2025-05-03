@@ -6,7 +6,7 @@ const DELIVERY_PROVINCES = 7000; // تكلفة التوصيل للمحافظات
 // رابط Google Apps Script
 
 // رابط Google Apps Script مع وسيط CORS
-const API_URL = 'https://corsproxy.io/?' + encodeURIComponent('https://script.google.com/macros/s/AKfycbwjpWWI0XO3xitizJh82cx-ZE7KNiI_ocXCo8BGGlFTL6xhIaElMbfzacyx1U_K3wy8/exec');
+const API_URL = 'https://corsproxy.io/?' + encodeURIComponent('https://script.google.com/macros/s/AKfycbzESPjBZlIufNEnHJmPAKqR-MJm5QLPyuqU-TmwTco47hU5ZXQNv81eovWcPb4f8WM/exec');
 
 // دالة لإرسال طلب إلى Google Apps Script
 function fetchData(action, data = {}) {
